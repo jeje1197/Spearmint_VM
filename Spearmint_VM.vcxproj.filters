@@ -28,5 +28,8 @@
     <ClInclude Include="SVM.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Assembler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

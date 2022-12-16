@@ -130,6 +130,7 @@
     <ClCompile Include="Spearmint_VM.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Assembler.h" />
     <ClInclude Include="SVM.h" />
   </ItemGroup>
   <ItemGroup>

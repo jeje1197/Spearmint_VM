@@ -2,22 +2,29 @@
 //
 
 #include <iostream>
+#include <vector>
 #include "SVM.h"
+#include "Assembler.h"
 
 int main()
 {
-    uint8_t memory[] = {0, 97, 8, 6};
+    std::string asmProgramText = "pushint 16 alloc pushint 12 storestr \"God is good!\" printstr exit"; 
+        //"alloc 18 storestr \"Joseph is awesome!\" printstr";
+
+    SVMAssembler assembler(asmProgramText);
+    std::vector<uint8_t> bytecode = assembler.getBytecode();
+
+    uint8_t* memory = bytecode.data();
     run(memory);
 
+    //std::cout << "Text passed: " << std::endl;
+
+    //for (auto instruction: assembler.getMapping()) {
+    //    std::cout <<  instruction.first << ":" << (int) instruction.second << std::endl;
+    //}
+    //std::cout << "Resulting Bytecode Instructions: " << (int) bytecode.size() << std::endl;
+    //for (auto byte : bytecode) {
+    //    std::cout << (int) byte << std::endl;
+    //}
+
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
