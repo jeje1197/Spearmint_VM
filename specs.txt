@@ -1,0 +1,56 @@
+----------
+Spearmint Virtual Machine (SVM) is a specification for a software program
+that executes code and provides the runtime environment for that code.
+
+It is a process virtual machine meaning that it allows a single process to
+run as an application on a host machine, providing a platform-independent
+programming environment by masking the information of the underlying hardware
+or operating system.
+----------
+
+Created by Joseph Evans
+Last Updated: 1/19/2023
+
+__________
+
+Specificaton:
+The SVM takes in bytecode and executes it according to the defined instruction 
+set.
+
+Archtecture: Stack-based virtual machine
+Stack Allocated Memory: _GB
+Heap Allocated Memory: _GB
+
+
+
+
+Instruction set:
+opcode mnemonic args
+
+0      push_i   [int] -> int
+1      push_f   [float] -> float
+2	   pop      []
+
+3	   add_i    [int, int] -> int
+4      sub_i    [int, int] -> int
+5      mul_i    [int, int] -> int
+6	   div_i    [int, int] -> int
+7	   rem_i    [int, int] -> int
+
+8	   add_f    [float, float] -> float
+9      sub_f    [float, float] -> float
+10     mul_f    [float, float] -> float
+11	   div_f    [float, float] -> float
+12	   rem_f    [float, float] -> float
+
+13     cmp_i    [int, int] -> int
+14     cmp_f    [float, float] -> int
+
+15	   load_pc  [] -> int
+16     jmp      [addr] -> ret_addr
+17     jmp_z    [addr, int] -> ret_addr
+18	   jmp_nz   [addr, int] -> ret_addr
+
+19	   call_c   [...]
+
+

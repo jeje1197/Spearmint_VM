@@ -3,28 +3,18 @@
 
 #include <iostream>
 #include <vector>
+#include "svm_instructions.h"
 #include "SVM.h"
-#include "Assembler.h"
+#include "assembler.h"
 
 int main()
 {
-    std::string asmProgramText = "pushint 16 alloc pushint 12 storestr \"God is good!\" printstr exit"; 
-        //"alloc 18 storestr \"Joseph is awesome!\" printstr";
+    std::string asmProgramText = "d_push -15.5 d_push 10 d_cmp d_print";
 
     SVMAssembler assembler(asmProgramText);
     std::vector<uint8_t> bytecode = assembler.getBytecode();
 
     uint8_t* memory = bytecode.data();
+
     run(memory);
-
-    //std::cout << "Text passed: " << std::endl;
-
-    //for (auto instruction: assembler.getMapping()) {
-    //    std::cout <<  instruction.first << ":" << (int) instruction.second << std::endl;
-    //}
-    //std::cout << "Resulting Bytecode Instructions: " << (int) bytecode.size() << std::endl;
-    //for (auto byte : bytecode) {
-    //    std::cout << (int) byte << std::endl;
-    //}
-
 }

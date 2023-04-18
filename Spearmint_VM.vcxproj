@@ -130,10 +130,13 @@
     <ClCompile Include="Spearmint_VM.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Assembler.h" />
+    <ClInclude Include="assembler.h" />
+    <ClInclude Include="byte_conversions.h" />
     <ClInclude Include="SVM.h" />
+    <ClInclude Include="svm_instructions.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="specs.txt" />
     <Text Include="Text.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -23,12 +23,21 @@
     <Text Include="Text.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="specs.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SVM.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Assembler.h">
+    <ClInclude Include="assembler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="svm_instructions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="byte_conversions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
