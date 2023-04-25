@@ -1,0 +1,13 @@
+# The order that static variables are declared in
+# correspond to their offset from the $vars pointer
+
+static: $0, $1, $2, $3, $4, $5
+
+
+
+label a:
+	d_push 66
+	d_print
+
+	d_
+	

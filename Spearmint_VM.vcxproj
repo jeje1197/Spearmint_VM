@@ -131,13 +131,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="assembler.h" />
-    <ClInclude Include="byte_conversions.h" />
     <ClInclude Include="SVM.h" />
+    <ClInclude Include="svm_definitions.h" />
     <ClInclude Include="svm_instructions.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="sample.svm" />
     <Text Include="specs.txt" />
     <Text Include="Text.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="example.svm" />
+    <None Include="sample.spm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

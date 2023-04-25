@@ -10,21 +10,35 @@ typedef enum {
 	PROGRAM_SUCCESS,
 	PROGRAM_FAIL,
 
+	NOP,
 	POP,
 
-	B_PUSH,
+	I_PUSH,
+	I_ADD,
+	I_SUB,
+	I_MUL,
+	I_DIV,
+	I_REM,
+	I_CMP,
+	I_PRINT,
+	I2F,
 
-	D_PUSH,
-	D_ADD,
-	D_SUB,
-	D_MUL,
-	D_DIV,
-	D_REM,
-	D_CMP,
+	F_PUSH,
+	F_ADD,
+	F_SUB,
+	F_MUL,
+	F_DIV,
+	F_REM,
+	F_CMP,
+	F_PRINT,
+	F2I,
 
-	B_PRINT,
-	D_PRINT,
+	BZ,
+	BLTZ,
+	BGTZ,
+	BLEZ,
+	BGEZ,
 
-
-
+	JMP,
+	JMPR
 } opcode;

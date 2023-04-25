@@ -26,6 +26,9 @@
     <Text Include="specs.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="sample.svm">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SVM.h">
@@ -37,8 +40,16 @@
     <ClInclude Include="svm_instructions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="byte_conversions.h">
+    <ClInclude Include="svm_definitions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="example.svm">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sample.spm">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
