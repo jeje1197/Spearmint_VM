@@ -20,8 +20,9 @@ typedef enum {
 	I_DIV,
 	I_REM,
 	I_CMP,
-	I_PRINT,
 	I2F,
+	I_PRINT,
+	BOOL_PRINT,
 
 	F_PUSH,
 	F_ADD,
@@ -30,8 +31,12 @@ typedef enum {
 	F_DIV,
 	F_REM,
 	F_CMP,
-	F_PRINT,
 	F2I,
+	F_PRINT,
+
+	CREATE_STATIC,
+	LOAD_STATIC,
+	STORE_STATIC,
 
 	BZ,
 	BLTZ,

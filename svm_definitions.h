@@ -19,6 +19,8 @@ struct {
 
 	svm_value* sp;
 
-	// uint64_t* static_vars;
+	svm_value static_vars[10];
+
+	svm_value* sv;
 } svm;
 

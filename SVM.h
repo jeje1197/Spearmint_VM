@@ -103,15 +103,20 @@ int run(uint8_t *bytecode) {
 			break;
 		}
 
+		case I2F: {
+			svm_value result;
+			result.f32 = (float)stack_pop().i32;
+			stack_push(result);
+			break;
+		}
+
 		case I_PRINT: {
 			std::cout << stack_pop().i32;
 			break;
 		}
 
-		case I2F: {
-			svm_value result;
-			result.f32 = (float) stack_pop().i32;
-			stack_push(result);
+		case BOOL_PRINT: {
+			std::cout << stack_pop().i32 ? "true": "false";
 			break;
 		}
 
@@ -179,6 +184,23 @@ int run(uint8_t *bytecode) {
 			svm_value result;
 			result.i32 = (int)stack_pop().f32;
 			stack_push(result);
+			break;
+		}
+
+		case F_PRINT: {
+			std::cout << stack_pop().f32;
+			break;
+		}
+
+		case LOAD_STATIC: {
+			int index = stack_pop().i32;
+			stack_push(svm.static_vars[index]);
+			break;
+		}
+
+		case STORE_STATIC: {
+			int index = stack_pop().i32;
+			svm.static_vars[index] = stack_pop();
 			break;
 		}
 

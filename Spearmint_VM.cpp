@@ -18,10 +18,27 @@ int main()
     /*uint8_t* memory = bytecode.data();*/
     
     uint8_t mem[] = {
-        I_PUSH, 250, 0, 0, 0,
+        // CREATE_STATIC, // Creates an array of static variables
+        
+        I_PUSH, 97, 0, 0, 0,
+        I_PUSH, 0, 0, 0, 0,
+        STORE_STATIC,
+
+        I_PUSH, 7, 0, 0, 0,
+        I_PUSH, 6, 0, 0, 0,
+        I_PUSH, 5, 0, 0, 0,
+        I_PUSH, 244, 0, 0, 0,
+
+        I_PUSH, 5, 0, 0, 0,
+        I_PUSH, 0, 0, 0, 0,
+        LOAD_STATIC,
+        I_ADD,
+        I_PRINT,
+
+       /* I_PUSH, 250, 0, 0, 0,
         I_PUSH, 254, 0, 0, 0,
         I_CMP,
-        I_PRINT,
+        I_PRINT,*/
         PROGRAM_SUCCESS
     };
 
