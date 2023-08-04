@@ -2,10 +2,8 @@
 //
 
 #include <iostream>
-#include <vector>
 #include "svm_instructions.h"
-#include "SVM.h"
-#include "assembler.h"
+#include "svm.h"
 
 int main()
 {
@@ -16,33 +14,26 @@ int main()
     std::vector<uint8_t> bytecode = assembler.getBytecode();*/
 
     /*uint8_t* memory = bytecode.data();*/
+
+    uint8_t dasArr[8];
+    double d = 97.0;
+
+    uint8_t* arr = (uint8_t*) & d;
     
     uint8_t mem[] = {
-        // CREATE_STATIC, // Creates an array of static variables
-        
-        I_PUSH, 97, 0, 0, 0,
-        I_PUSH, 0, 0, 0, 0,
-        STORE_STATIC,
 
-        I_PUSH, 7, 0, 0, 0,
-        I_PUSH, 6, 0, 0, 0,
-        I_PUSH, 5, 0, 0, 0,
-        I_PUSH, 244, 0, 0, 0,
+        PUSH, TYPE_NUMBER,
+        arr[0], arr[1], arr[2], arr[3],
+        arr[4],  arr[5], arr[6], arr[7],
 
-        I_PUSH, 5, 0, 0, 0,
-        I_PUSH, 0, 0, 0, 0,
-        LOAD_STATIC,
-        I_ADD,
-        I_PRINT,
-
-       /* I_PUSH, 250, 0, 0, 0,
-        I_PUSH, 254, 0, 0, 0,
-        I_CMP,
-        I_PRINT,*/
+        PRINT,
         PROGRAM_SUCCESS
     };
 
-    if (run(mem) == -1) {
-        std::cout << "Program terminated abruptly" << std::endl;
+    if (run(mem) == 0) {
+        std::cout << "Program terminated successfully." << std::endl;
+    }
+    else {
+        std::cout << "Program terminated with an error." << std::endl;
     }
 }

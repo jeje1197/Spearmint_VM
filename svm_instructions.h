@@ -5,45 +5,25 @@
 
 
 	Number Types: Only doubles (64-bit floating point numbers)
+	Strings Types: Characters are represented by size 1 strings
 */
+
 typedef enum {
 	PROGRAM_SUCCESS,
 	PROGRAM_FAIL,
 
-	NOP,
+	PUSH,
 	POP,
 
-	I_PUSH,
-	I_ADD,
-	I_SUB,
-	I_MUL,
-	I_DIV,
-	I_REM,
-	I_CMP,
-	I2F,
-	I_PRINT,
-	BOOL_PRINT,
+	ADD,
+	SUB,
+	MUL,
+	DIV,
+	MOD,
 
-	F_PUSH,
-	F_ADD,
-	F_SUB,
-	F_MUL,
-	F_DIV,
-	F_REM,
-	F_CMP,
-	F2I,
-	F_PRINT,
 
-	CREATE_STATIC,
-	LOAD_STATIC,
-	STORE_STATIC,
+	CMP,
 
-	BZ,
-	BLTZ,
-	BGTZ,
-	BLEZ,
-	BGEZ,
-
-	JMP,
-	JMPR
+	PRINT,
+	PRINTLN
 } opcode;

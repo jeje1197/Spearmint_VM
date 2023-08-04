@@ -3,18 +3,19 @@
 #include <cstdint>
 #include <cmath>
 
-#include "svm_instructions.h"
 #include "svm_definitions.h"
+#include "svm_instructions.h"
+
 
 void reset_vm() {
 	svm.sp = svm.stack;
 }
 
-void stack_push(svm_value value) {
-	*svm.sp++ = value;
+void stack_push(value data) {
+	*svm.sp++ = data;
 }
 
-svm_value stack_pop() {
+value stack_pop() {
 	return *--svm.sp;
 }
 
@@ -22,7 +23,7 @@ svm_value stack_pop() {
 // Interpret bytecode
 int run(uint8_t *bytecode) {
 	reset_vm();
-	std::cout << "Virtual machine running.\n" << std::endl;
+	std::cout << "Process running.\n" << std::endl;
 
 	// Set initial address for program counter
 	svm.pc = bytecode;
@@ -37,55 +38,108 @@ int run(uint8_t *bytecode) {
 		case PROGRAM_FAIL:
 			return -1;
 
-		case NOP: 
-			break;
+		case PUSH: {
+			value data;
 
+			int datatype = *svm.pc++;
+			data.type = static_cast<ValueType>(datatype);
+
+			data.as.number = *(double*)svm.pc;
+			svm.pc += 8;
+
+			stack_push(data);
+			break;
+		}
+			
 		case POP:
 			stack_pop();
 			break;
 
-		case I_PUSH: {
-			stack_push(*(svm_value*)svm.pc);
-			svm.pc += 4;
-			break;
-		}
+		case ADD: {
+			value result;
+			value right = stack_pop();
+			value left = stack_pop();
 
-		case I_ADD: {
-			svm_value result;
-			result.i32 = stack_pop().i32 + stack_pop().i32;
+
+			if (left.type == right.type && left.type == TYPE_NUMBER) {
+				result.type = TYPE_NUMBER;
+				result.as.number = left.as.number + right.as.number;
+			} else if (left.type == right.type && left.type == TYPE_STRING) {
+				result.type = TYPE_STRING;
+				*result.as.string = *(left.as.string) + *(right.as.string);
+			}
+			else {
+				throw "Invalid operation";
+			}
 			stack_push(result);
 			break;
 		}
 
-		case I_SUB: {
-			svm_value result;
-			result.i32 = stack_pop().i32 - stack_pop().i32;
+		case SUB: {
+			value result;
+			value right = stack_pop();
+			value left = stack_pop();
+
+			if (left.type == right.type && left.type == TYPE_NUMBER) {
+				result.type = TYPE_NUMBER;
+				result.as.number = left.as.number - right.as.number;
+			}
+			else {
+				throw "Invalid operation";
+			}
 			stack_push(result);
 			break;
 		}
 
-		case I_MUL: {
-			svm_value result;
-			result.i32 = stack_pop().i32 * stack_pop().i32;
+		case MUL: {
+			value result;
+			value right = stack_pop();
+			value left = stack_pop();
+
+			if (left.type == right.type && left.type == TYPE_NUMBER) {
+				result.type = TYPE_NUMBER;
+				result.as.number = left.as.number * right.as.number;
+			}
+			else {
+				throw "Invalid operation";
+			}
 			stack_push(result);
 			break;
 		}
 
-		case I_DIV: {
-			svm_value result;
-			result.i32 = stack_pop().i32 / stack_pop().i32;
+		case DIV: {
+			value result;
+			value right = stack_pop();
+			value left = stack_pop();
+
+			if (left.type == right.type && left.type == TYPE_NUMBER) {
+				result.type = TYPE_NUMBER;
+				result.as.number = left.as.number / right.as.number;
+			}
+			else {
+				throw "Invalid operation";
+			}
 			stack_push(result);
 			break;
 		}
 
-		case I_REM: {
-			svm_value result;
-			result.i32 = stack_pop().i32 % stack_pop().i32;
+		case MOD: {
+			value result;
+			value right = stack_pop();
+			value left = stack_pop();
+
+			if (left.type == right.type && left.type == TYPE_NUMBER) {
+				result.type = TYPE_NUMBER;
+				result.as.number = std::fmod(left.as.number, right.as.number);
+			}
+			else {
+				throw "Invalid operation";
+			}
 			stack_push(result);
 			break;
 		}
 
-		case I_CMP: {
+		/*case CMP: {
 			int right = stack_pop().i32;
 			int left = stack_pop().i32;
 
@@ -101,131 +155,51 @@ int run(uint8_t *bytecode) {
 			}
 			stack_push(result);
 			break;
-		}
-
-		case I2F: {
-			svm_value result;
-			result.f32 = (float)stack_pop().i32;
-			stack_push(result);
-			break;
-		}
-
-		case I_PRINT: {
-			std::cout << stack_pop().i32;
-			break;
-		}
-
-		case BOOL_PRINT: {
-			std::cout << stack_pop().i32 ? "true": "false";
-			break;
-		}
-
-		case F_PUSH: {
-			stack_push(*(svm_value*)svm.pc);
-
-			svm.pc += 4;
-			break;
-		}
-
-		case F_ADD: {
-			svm_value result;
-			result.f32 = stack_pop().f32 + stack_pop().f32;
-			stack_push(result);
-			break;
-		}
-
-		case F_SUB: {
-			svm_value result;
-			result.f32 = stack_pop().f32 - stack_pop().f32;
-			stack_push(result);
-			break;
-		}
-
-		case F_MUL: {
-			svm_value result;
-			result.f32 = stack_pop().f32 * stack_pop().f32;
-			stack_push(result);
-			break;
-		}
-
-		case F_DIV: {
-			svm_value result;
-			result.f32 = stack_pop().f32 / stack_pop().f32;
-			stack_push(result);
-			break;
-		}
-
-		case F_REM: {
-			svm_value result;
-			result.f32 = fmod(stack_pop().f32, stack_pop().f32);
-			stack_push(result);
-			break;
-		}
-
-		case F_CMP: {
-			float right = stack_pop().f32;
-			float left = stack_pop().f32;
-
-			svm_value result;
-			if (left < right) {
-				result.i32 = -1;
-			}
-			else if (left > right) {
-				result.i32 = 1;
-			}
-			else {
-				result.i32 = 0;
-			}
-			stack_push(result);
-			break;
-		}
-
-		case F2I: {
-			svm_value result;
-			result.i32 = (int)stack_pop().f32;
-			stack_push(result);
-			break;
-		}
-
-		case F_PRINT: {
-			std::cout << stack_pop().f32;
-			break;
-		}
-
-		case LOAD_STATIC: {
-			int index = stack_pop().i32;
-			stack_push(svm.static_vars[index]);
-			break;
-		}
-
-		case STORE_STATIC: {
-			int index = stack_pop().i32;
-			svm.static_vars[index] = stack_pop();
-			break;
-		}
-
-		/*case JMP: {
-			uint64_t value = stack_pop();
-			double doubleValue = *(double*)&value;
-
-			svm.pc = bytecode + (uint64_t)doubleValue;
-			break;
-		}
-
-		case JMPR: {
-			uint64_t value = stack_pop();
-			double doubleValue = *(double*)&value;
-
-			stack_push((uint64_t)svm.pc);
-			svm.pc = bytecode + (uint64_t)doubleValue;
-			break;
 		}*/
-		
+
+		case PRINT: {
+			value data = stack_pop();
+
+			if (data.type == TYPE_NUMBER) {
+				std::cout << data.as.number;
+			} else if (data.type == TYPE_STRING) {
+				std::cout << data.as.string;
+			} else if (data.type == TYPE_BOOLEAN) {
+				std::cout << (data.as.boolean != 0)? "true" : "false";
+			} else if (data.type == TYPE_OBJECT) {
+				std::cout << "[Object at " << data.as.object_ptr << "]";
+			}
+			else if (data.type == TYPE_NIL) {
+				std::cout << "nil";
+			}
+			break;
+		}
+
+		case PRINTLN: {
+			value data = stack_pop();
+
+			if (data.type == TYPE_NUMBER) {
+				std::cout << data.as.number << std::endl;
+			}
+			else if (data.type == TYPE_STRING) {
+				std::cout << data.as.string << std::endl;
+			}
+			else if (data.type == TYPE_BOOLEAN) {
+				std::cout << (data.as.boolean != 0) ? "true" : "false" << std::endl;
+			}
+			else if (data.type == TYPE_OBJECT) {
+				std::cout << "[Object at " << data.as.object_ptr << "]" << std::endl;
+			}
+			else if (data.type == TYPE_NIL) {
+				std::cout << "nil" << std::endl;
+			}
+			break;
+		}
+
 		default:
 			return -1;
 		}
 	}
-
 	return -1;
 }
 

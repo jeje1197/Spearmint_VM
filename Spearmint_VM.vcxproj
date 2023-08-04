@@ -131,7 +131,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="assembler.h" />
-    <ClInclude Include="SVM.h" />
+    <ClInclude Include="AsmToken.h" />
+    <ClInclude Include="svm.h" />
     <ClInclude Include="svm_definitions.h" />
     <ClInclude Include="svm_instructions.h" />
   </ItemGroup>

@@ -7,49 +7,19 @@
 //#include <vector>
 //#include <unordered_map>
 //
-//class SVMAssembler {
+//class svmassembler {
 //private:
 //	std::string text;
 //	int index;
 //	char cur;
-//	bool hasError = false;
+//	bool haserror = false;
 //
-//	std::unordered_map<std::string, uint64_t> labels = {};
-//
-//	/* HashMap of mnemonics and their values in bytecode */
-//	std::unordered_map<std::string, uint8_t> mnemonics = {
-//		{"program_success", PROGRAM_SUCCESS},
-//		{"program_fail", PROGRAM_FAIL},
-//		{"pop", POP},
-//
-//		{"b_push", B_PUSH},
-//		{"b_print", B_PRINT},
-//
-//		{"d_push", D_PUSH},
-//		{"d_add", D_ADD},
-//		{"d_sub", D_SUB},
-//		{"d_mul", D_MUL},
-//		{"d_div", D_DIV},
-//		{"d_rem", D_REM},
-//		{"d_cmp", D_CMP},
-//		{"d_print", D_PRINT},
-//
-//		{"bz", BZ},
-//		{"bltz", BLTZ},
-//		{"blez", BLEZ},
-//		{"bgtz", BGTZ},
-//		{"bgez", BGEZ},
-//
-//		{"jmp", JMP},
-//		{"jmpr", JMPR}
-//	};
-//
-//	bool hasNext() {
+//	bool hasnext() {
 //		return index + 1 < (int)text.size();
 //	}
 //
-//	void getNext() {
-//		if (!hasNext()) {
+//	void getnext() {
+//		if (!hasnext()) {
 //			cur = '\0';
 //		}
 //		else {
@@ -57,118 +27,266 @@
 //		}
 //	}
 //
-//	uint8_t translateMnemonic(std::string mnemonic) {
+//	uint8_t translatemnemonic(std::string mnemonic) {
 //		if (mnemonics.find(mnemonic) == mnemonics.end()) {
-//			hasError = true;
-//			std::cout << "Mnemonic not found: " + mnemonic << std::endl;
+//			haserror = true;
+//			std::cout << "mnemonic not found: " + mnemonic << std::endl;
 //			return -1;
 //		}
 //		return mnemonics.at(mnemonic);
 //	}
 //
-//	uint64_t findLabel(std::string label) {
+//	uint64_t findlabel(std::string label) {
 //		if (labels.find(label) == labels.end()) {
-//			hasError = true;
-//			std::cout << "Label not found: " + label << std::endl;
+//			haserror = true;
+//			std::cout << "label not found: " + label << std::endl;
 //			return -1;
 //		}
 //		return labels.at(label);
 //	}
 //
 //public:
-//	SVMAssembler(std::string text) {
+//	svmassembler(std::string text) {
 //		this->text = text;
 //		this->index = -1;
-//		getNext();
+//		getnext();
 //	}
 //
-//	std::vector<uint8_t> getBytecode() {
+//	std::vector<uint8_t> getbytecode() {
 //		std::vector<uint8_t> bytecode;
-//		std::cout << "Generating bytecode..." << std::endl;
+//		std::cout << "generating bytecode..." << std::endl;
 //
 //		while (cur != '\0') {
-//			if (isspace(cur)) { // Skip whitespace
-//				getNext();
+//			if (isspace(cur)) { // skip whitespace
+//				getnext();
 //			}
-//			else if (isalpha(cur)) { // Get mnemonic
+//			else if (isalpha(cur)) { // get mnemonic
 //				std::string operation = "";
 //
 //				while (isalnum(cur) || cur == '_') {
 //					operation += cur;
-//					getNext();
+//					getnext();
 //				}
 //
 //				if (operation.size() > 0 && operation.at(operation.size() - 1) == '_') {
-//					bytecode.push_back(NOP); // byte corresponding to a label
+//					bytecode.push_back(nop); // byte corresponding to a label
 //					labels.insert({operation.substr(operation.size()), bytecode.size()});
 //					continue;
 //				}
 //
-//				uint8_t byte = translateMnemonic(operation);
+//				uint8_t byte = translatemnemonic(operation);
 //				bytecode.push_back(byte);
 //			}
-//			else if (isdigit(cur) || cur == '-' || cur == '+') { // Get a number as double and store it as bytecode
+//			else if (isdigit(cur) || cur == '-' || cur == '+') { // get a number as double and store it as bytecode
 //				std::string number;
-//				int numDots = 0;
+//				int numdots = 0;
 //				if (cur == '+' || cur == '-') {
 //					number += cur;
-//					getNext();
+//					getnext();
 //				}
 //
 //				while (isdigit(cur) || cur == '.') {
 //					if (cur == '.') {
-//						if (numDots == 1) {
+//						if (numdots == 1) {
 //							break;
 //						}
-//						numDots++;
+//						numdots++;
 //					}
 //					number += cur;
-//					getNext();
+//					getnext();
 //				}
 //
 //				double value = std::stod(number);
-//				// std::cout << "Number is: " << value << std::endl;
+//				// std::cout << "number is: " << value << std::endl;
 //
-//				uint8_t* doubleAsBytes = (uint8_t*)&(value);
+//				uint8_t* doubleasbytes = (uint8_t*)&(value);
 //				
 //				for (int i = 0; i < 8; i++) {
-//					bytecode.push_back(doubleAsBytes[i]);
+//					bytecode.push_back(doubleasbytes[i]);
 //				}
 //
-//				// std::cout << "Number is: " << *(double*) doubleAsBytes << std::endl;
+//				// std::cout << "number is: " << *(double*) doubleasbytes << std::endl;
 //			}
-//			else if (cur == '"') { // Get a string and store it as bytecode
-//				getNext();
+//			else if (cur == '"') { // get a string and store it as bytecode
+//				getnext();
 //
 //				while (cur != '"') {
 //					bytecode.push_back((uint8_t) cur);
-//					getNext();
+//					getnext();
 //				}
-//				getNext();
+//				getnext();
 //
 //			}
-//			else if (cur == '\'') { // Encode char in bytecode
-//				getNext();
+//			else if (cur == '\'') { // encode char in bytecode
+//				getnext();
 //
 //				bytecode.push_back((uint8_t) cur);
-//				getNext();
+//				getnext();
 //				if (cur != '\'') {
-//					hasError = true;
-//					std::cout << "Unterminated single quote" << std::endl;
+//					haserror = true;
+//					std::cout << "unterminated single quote" << std::endl;
 //				}
-//				getNext();
+//				getnext();
 //			}
 //			else {
-//				hasError = true;
-//				std::cout << "SVM Assembler Error: Invalid syntax." << std::endl;
+//				haserror = true;
+//				std::cout << "svm assembler error: invalid syntax." << std::endl;
 //			}
 //		}
 //
-//		if (hasError) {
-//			std::cout << "Failed to generate bytecode." << std::endl;
+//		if (haserror) {
+//			std::cout << "failed to generate bytecode." << std::endl;
 //		}
 //		else {
-//			std::cout << "Successfully generated bytecode" << std::endl;
+//			std::cout << "successfully generated bytecode" << std::endl;
+//		}
+//
+//		return bytecode;
+//	}
+//};
+//
+//
+#pragma once
+//
+//#include "svm_instructions.h"
+//
+//#include <iostream>
+//#include <string>
+//#include <vector>
+//#include <unordered_map>
+//
+//class svmassembler {
+//private:
+//	std::string text;
+//	int index;
+//	char cur;
+//	bool haserror = false;
+//
+//	bool hasnext() {
+//		return index + 1 < (int)text.size();
+//	}
+//
+//	void getnext() {
+//		if (!hasnext()) {
+//			cur = '\0';
+//		}
+//		else {
+//			cur = text.at(++index);
+//		}
+//	}
+//
+//	uint8_t translatemnemonic(std::string mnemonic) {
+//		if (mnemonics.find(mnemonic) == mnemonics.end()) {
+//			haserror = true;
+//			std::cout << "mnemonic not found: " + mnemonic << std::endl;
+//			return -1;
+//		}
+//		return mnemonics.at(mnemonic);
+//	}
+//
+//	uint64_t findlabel(std::string label) {
+//		if (labels.find(label) == labels.end()) {
+//			haserror = true;
+//			std::cout << "label not found: " + label << std::endl;
+//			return -1;
+//		}
+//		return labels.at(label);
+//	}
+//
+//public:
+//	svmassembler(std::string text) {
+//		this->text = text;
+//		this->index = -1;
+//		getnext();
+//	}
+//
+//	std::vector<uint8_t> getbytecode() {
+//		std::vector<uint8_t> bytecode;
+//		std::cout << "generating bytecode..." << std::endl;
+//
+//		while (cur != '\0') {
+//			if (isspace(cur)) { // skip whitespace
+//				getnext();
+//			}
+//			else if (isalpha(cur)) { // get mnemonic
+//				std::string operation = "";
+//
+//				while (isalnum(cur) || cur == '_') {
+//					operation += cur;
+//					getnext();
+//				}
+//
+//				if (operation.size() > 0 && operation.at(operation.size() - 1) == '_') {
+//					bytecode.push_back(nop); // byte corresponding to a label
+//					labels.insert({operation.substr(operation.size()), bytecode.size()});
+//					continue;
+//				}
+//
+//				uint8_t byte = translatemnemonic(operation);
+//				bytecode.push_back(byte);
+//			}
+//			else if (isdigit(cur) || cur == '-' || cur == '+') { // get a number as double and store it as bytecode
+//				std::string number;
+//				int numdots = 0;
+//				if (cur == '+' || cur == '-') {
+//					number += cur;
+//					getnext();
+//				}
+//
+//				while (isdigit(cur) || cur == '.') {
+//					if (cur == '.') {
+//						if (numdots == 1) {
+//							break;
+//						}
+//						numdots++;
+//					}
+//					number += cur;
+//					getnext();
+//				}
+//
+//				double value = std::stod(number);
+//				// std::cout << "number is: " << value << std::endl;
+//
+//				uint8_t* doubleasbytes = (uint8_t*)&(value);
+//				
+//				for (int i = 0; i < 8; i++) {
+//					bytecode.push_back(doubleasbytes[i]);
+//				}
+//
+//				// std::cout << "number is: " << *(double*) doubleasbytes << std::endl;
+//			}
+//			else if (cur == '"') { // get a string and store it as bytecode
+//				getnext();
+//
+//				while (cur != '"') {
+//					bytecode.push_back((uint8_t) cur);
+//					getnext();
+//				}
+//				getnext();
+//
+//			}
+//			else if (cur == '\'') { // encode char in bytecode
+//				getnext();
+//
+//				bytecode.push_back((uint8_t) cur);
+//				getnext();
+//				if (cur != '\'') {
+//					haserror = true;
+//					std::cout << "unterminated single quote" << std::endl;
+//				}
+//				getnext();
+//			}
+//			else {
+//				haserror = true;
+//				std::cout << "svm assembler error: invalid syntax." << std::endl;
+//			}
+//		}
+//
+//		if (haserror) {
+//			std::cout << "failed to generate bytecode." << std::endl;
+//		}
+//		else {
+//			std::cout << "successfully generated bytecode" << std::endl;
 //		}
 //
 //		return bytecode;
