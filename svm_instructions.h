@@ -13,7 +13,13 @@ typedef enum {
 	PROGRAM_FAIL,
 
 	PUSH,
+	PUSH_NIL,
 	POP,
+
+	STORE_GLOBAL,
+	LOAD_GLOBAL,
+
+	CALL,
 
 	ADD,
 	SUB,
@@ -21,8 +27,18 @@ typedef enum {
 	DIV,
 	MOD,
 
-
+	EQ,
+	NEQ,
 	CMP,
+
+	GOTO,
+
+	LT,
+	LTE,
+	GT,
+	GTE,
+
+	
 
 	PRINT,
 	PRINTLN

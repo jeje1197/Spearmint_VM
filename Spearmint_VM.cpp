@@ -14,20 +14,8 @@ int main()
     std::vector<uint8_t> bytecode = assembler.getBytecode();*/
 
     /*uint8_t* memory = bytecode.data();*/
-
-    uint8_t dasArr[8];
-    double d = 97.0;
-
-    uint8_t* arr = (uint8_t*) & d;
-    
     uint8_t mem[] = {
-
-        PUSH, TYPE_NUMBER,
-        arr[0], arr[1], arr[2], arr[3],
-        arr[4],  arr[5], arr[6], arr[7],
-
-        PRINT,
-        PROGRAM_SUCCESS
+        CALL, PROGRAM_SUCCESS
     };
 
     if (run(mem) == 0) {

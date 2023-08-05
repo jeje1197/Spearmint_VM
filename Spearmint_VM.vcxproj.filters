@@ -15,6 +15,9 @@
     <Filter Include="VirtualMachine">
       <UniqueIdentifier>{164a917e-8b07-4a9d-bd40-d516d7ea5ea3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="VirtualMachine\Native">
+      <UniqueIdentifier>{440873a4-a0f5-4f2c-91e2-15fea7e3f65d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Spearmint_VM.cpp">
@@ -28,14 +31,8 @@
     <Text Include="specs.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="sample.svm">
-      <Filter>Resource Files</Filter>
-    </Text>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AsmToken.h">
-      <Filter>Assembler</Filter>
-    </ClInclude>
     <ClInclude Include="svm.h">
       <Filter>VirtualMachine</Filter>
     </ClInclude>
@@ -48,13 +45,11 @@
     <ClInclude Include="assembler.h">
       <Filter>Assembler</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="example.svm">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="sample.spm">
-      <Filter>Resource Files</Filter>
-    </None>
+    <ClInclude Include="AsmToken.h">
+      <Filter>Assembler</Filter>
+    </ClInclude>
+    <ClInclude Include="NativeFunctions.h">
+      <Filter>VirtualMachine\Native</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

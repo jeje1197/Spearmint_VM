@@ -1,1 +1,0 @@
-# Example Spearmint Virtual Machine Bytecode

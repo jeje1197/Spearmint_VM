@@ -1,0 +1,16 @@
+This file describes the layout of a Spearmint Bytecode File
+
+spm file {
+	# bytes		describes
+
+	6			FILE_SIGNATURE			- First 6 bytes corresponds to the name Joseph
+	2			VERSION					- Version of spm code (ex. byte1 byte2 -> 1.2)
+	
+	2			CONSTANT_POOL_SIZE		- Number of Entries in the constant pool
+	?			CONSTANT_POOL_ENTRIES	- An array of entries structured as [1st byte - type, rest data to be interpreted]
+
+	
+
+
+}
+

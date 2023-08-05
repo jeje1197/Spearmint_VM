@@ -19,6 +19,31 @@ value stack_pop() {
 	return *--svm.sp;
 }
 
+bool isEqual(value left, value right) {
+	if (left.type != right.type) { 
+		return false; 
+	}
+	else if (left.type == TYPE_STRING) {
+		return *left.as.string == *right.as.string;
+	}
+	return left.as.uint64 == right.as.uint64;
+}
+
+int cmp(value left, value right) {
+	if (left.type != right.type) {
+		throw "Invalid type operation";
+	}
+	else if (left.type == TYPE_NUMBER) {
+		return left.as.number - right.as.number;
+	}
+	else if (left.type == TYPE_STRING) {
+		return left.as.string->compare(*right.as.string);
+	}
+	else {
+		throw "Invalid type operation";
+	}
+}
+
 
 // Interpret bytecode
 int run(uint8_t *bytecode) {
@@ -50,11 +75,32 @@ int run(uint8_t *bytecode) {
 			stack_push(data);
 			break;
 		}
-			
-		case POP:
+
+		case POP: {
 			stack_pop();
 			break;
+		}
 
+		case STORE_GLOBAL: {
+			value data = stack_pop();
+			int index = (int) stack_pop().as.number;
+
+			stack_push(svm.global[index]);
+			break;
+		}
+
+		case LOAD_GLOBAL: {
+			int index = (int)stack_pop().as.number;
+			stack_push(svm.global[index]);
+			break;
+		}
+
+		case CALL: {
+			svm.nativeFunctions["test"]();
+			break;
+
+		}
+	
 		case ADD: {
 			value result;
 			value right = stack_pop();
@@ -139,23 +185,44 @@ int run(uint8_t *bytecode) {
 			break;
 		}
 
-		/*case CMP: {
-			int right = stack_pop().i32;
-			int left = stack_pop().i32;
+		case EQ: {
+			value result;
+			value right = stack_pop();
+			value left = stack_pop();
 
-			svm_value result;
-			if (left < right) {
-				result.i32 = -1;
-			}
-			else if (left > right) {
-				result.i32 = 1;
-			}
-			else {
-				result.i32 = 0;
-			}
+			result.type = TYPE_BOOLEAN;
+			result.as.boolean = isEqual(left, right);
 			stack_push(result);
 			break;
-		}*/
+		}
+
+		case NEQ: {
+			value result;
+			value right = stack_pop();
+			value left = stack_pop();
+
+			result.type = TYPE_BOOLEAN;
+			result.as.boolean = !isEqual(left, right);
+			stack_push(result);
+			break;
+		}
+
+		case CMP: {
+			value result;
+			value right = stack_pop();
+			value left = stack_pop();
+
+			result.type = TYPE_NUMBER;
+			result.as.number = cmp(left, right);
+			stack_push(result);
+			break;
+		}
+
+		case GOTO: {
+			uint8_t* address = (uint8_t*) stack_pop().as.object_ptr;
+			svm.pc = address;
+			break;
+		}
 
 		case PRINT: {
 			value data = stack_pop();
@@ -185,7 +252,7 @@ int run(uint8_t *bytecode) {
 				std::cout << data.as.string << std::endl;
 			}
 			else if (data.type == TYPE_BOOLEAN) {
-				std::cout << (data.as.boolean != 0) ? "true" : "false" << std::endl;
+				std::cout << ((data.as.boolean != 0) ? "true" : "false") << std::endl;
 			}
 			else if (data.type == TYPE_OBJECT) {
 				std::cout << "[Object at " << data.as.object_ptr << "]" << std::endl;
