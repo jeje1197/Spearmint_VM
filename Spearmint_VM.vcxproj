@@ -133,13 +133,14 @@
     <ClInclude Include="AsmToken.h" />
     <ClInclude Include="assembler.h" />
     <ClInclude Include="NativeFunctions.h" />
+    <ClInclude Include="spm_file_generator.h" />
     <ClInclude Include="svm.h" />
     <ClInclude Include="svm_definitions.h" />
     <ClInclude Include="svm_instructions.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="specs.txt" />
-    <Text Include="Text.txt" />
+    <Text Include="spm_file_layout.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -4,6 +4,7 @@
 #include <iostream>
 #include "svm_instructions.h"
 #include "svm.h"
+#include "spm_file_generator.h"
 
 int main()
 {
@@ -14,7 +15,7 @@ int main()
     std::vector<uint8_t> bytecode = assembler.getBytecode();*/
 
     /*uint8_t* memory = bytecode.data();*/
-    uint8_t mem[] = {
+    /*uint8_t mem[] = {
         CALL, PROGRAM_SUCCESS
     };
 
@@ -23,5 +24,8 @@ int main()
     }
     else {
         std::cout << "Program terminated with an error." << std::endl;
-    }
+    }*/
+
+    SpmFileGenerator spmGen;
+    spmGen.generateSpmFile();
 }

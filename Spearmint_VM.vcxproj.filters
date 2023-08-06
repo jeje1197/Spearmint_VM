@@ -12,10 +12,13 @@
     <Filter Include="Assembler">
       <UniqueIdentifier>{1c4a9b0a-e2f6-4ef2-ad8a-763916736a3e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="VirtualMachine">
+    <Filter Include="File Generator">
+      <UniqueIdentifier>{273c0876-a06b-4f00-b9d9-4d722fa5de1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Virtual Machine">
       <UniqueIdentifier>{164a917e-8b07-4a9d-bd40-d516d7ea5ea3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="VirtualMachine\Native">
+    <Filter Include="Virtual Machine\Native">
       <UniqueIdentifier>{440873a4-a0f5-4f2c-91e2-15fea7e3f65d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -25,22 +28,22 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Text.txt">
+    <Text Include="specs.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="specs.txt">
+    <Text Include="spm_file_layout.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="svm.h">
-      <Filter>VirtualMachine</Filter>
+      <Filter>Virtual Machine</Filter>
     </ClInclude>
     <ClInclude Include="svm_definitions.h">
-      <Filter>VirtualMachine</Filter>
+      <Filter>Virtual Machine</Filter>
     </ClInclude>
     <ClInclude Include="svm_instructions.h">
-      <Filter>VirtualMachine</Filter>
+      <Filter>Virtual Machine</Filter>
     </ClInclude>
     <ClInclude Include="assembler.h">
       <Filter>Assembler</Filter>
@@ -49,7 +52,10 @@
       <Filter>Assembler</Filter>
     </ClInclude>
     <ClInclude Include="NativeFunctions.h">
-      <Filter>VirtualMachine\Native</Filter>
+      <Filter>Virtual Machine\Native</Filter>
+    </ClInclude>
+    <ClInclude Include="spm_file_generator.h">
+      <Filter>File Generator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
