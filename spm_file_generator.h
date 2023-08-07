@@ -1,10 +1,10 @@
 #pragma once
 
+#include <iostream>
 #include <string>
 #include <vector>
 #include <set>
 #include <cstdint>
-#include <iostream>
 
 using std::vector;
 using std::set;
@@ -18,13 +18,10 @@ private:
 	uint8_t* version = new uint8_t[2] { 0x1, 0x0 }; // 1.0
 
 	uint32_t  constantPoolCount = 0;
-	uint8_t* constantPoolEntries;
+	vector<uint8_t> constantPoolEntries;
 
-	uint32_t prototypeCount = 0;
-	uint8_t* prototypeEntries;
-
-	uint32_t functionCount = 0;
-	uint8_t*  functionEntries;
+	uint32_t globalsCount = 0;
+	vector<uint8_t>  globalEntries;
 
 	void addByte(uint8_t byte) {
 		bytecode.push_back(byte);
@@ -56,15 +53,15 @@ public:
 		this->constantPoolCount = constantPoolCount;
 	}
 
-	void setConstantPool(uint8_t constantPoolEntries[]) {
+	void setConstantPool(vector<uint8_t> constantPoolEntries) {
 		this->constantPoolEntries = constantPoolEntries;
 	}
 
-	void setPrototypeCount(uint32_t prototypeCount) {
+	/*void setPrototypeCount(uint32_t prototypeCount) {
 		this->prototypeCount = prototypeCount;
 	}
 
-	void setPrototypePool(uint8_t prototypeEntries[]) {
+	void setPrototypePool(vector<uint8_t> prototypeEntries) {
 		this->prototypeEntries = prototypeEntries;
 	}
 
@@ -72,20 +69,82 @@ public:
 		this->functionCount = functionCount;
 	}
 
-	void setFunctionEntries(uint8_t functionEntries[]) {
+	void setFunctionEntries(vector<uint8_t> functionEntries) {
 		this->functionEntries = functionEntries;
-	}
+	}*/
 
-	void generateSpmFile() {
+	vector<uint8_t> generateSpmFile() {
 		vector<uint8_t> bytecode;
 
 		bytecode.insert(bytecode.end(), fileSignature, fileSignature + 6);
 		bytecode.insert(bytecode.end(), version, version + 2);
 
+		// Constant Pool Data
+		bytecode.insert(bytecode.end(), static_cast<uint8_t*>(static_cast<void*>(&constantPoolCount)), 
+			(uint8_t*) &constantPoolCount + 4);
+		
+		if (constantPoolCount > 0) {
+			bytecode.insert(bytecode.end(), constantPoolEntries.begin(), constantPoolEntries.end());
+		}
 
-		/*bytecode.insert(bytecode.end(), constantPoolCount, constantPool + 6);
-		bytecode.insert(bytecode.end(), version, version + 2);*/
+		//// Prototype Data
+		//bytecode.insert(bytecode.end(), static_cast<uint8_t*>(static_cast<void*>(&prototypeCount)),
+		//	(uint8_t*) &prototypeCount + 4);
 
-		std::cout << "Bytes:" << bytecode.data();
+		//if (prototypeCount > 0) {
+		//	bytecode.insert(bytecode.end(), prototypeEntries.begin(), prototypeEntries.end());
+		//}
+
+		//// Function Data
+		//bytecode.insert(bytecode.end(), static_cast<uint8_t*>(static_cast<void*>(&functionCount)),
+		//	(uint8_t*) &functionCount + 4);
+
+		//if (functionCount > 0) {
+		//	bytecode.insert(bytecode.end(), functionEntries.begin(), functionEntries.end());
+		//}
+
+		return bytecode;
 	}
+
+	void disassembleSpmBytecode(vector <uint8_t> v) {
+		string content;
+
+		// Grab
+		content = "--- Spearmint Bytecode ---\n";
+
+		uint8_t* bytecode = v.data();
+
+		content += "File Signature: ";
+		for (int i = 0; i < 6; i++) {
+			content += string(1, (char)bytecode[i]);
+		}
+
+
+		content += "\nVersion: " + std::to_string(bytecode[6]) + "." + std::to_string(bytecode[7]);
+
+		uint8_t* index = bytecode+8;
+
+		uint32_t constantPoolCount = *(uint32_t*)index;
+		index += 4;
+		content += "\n\nConstant Pool (" + std::to_string(constantPoolCount) + ")";
+
+		uint32_t numberParsed = 0;
+		for (int i = 0; i < constantPoolCount; i++) {
+			uint8_t datatype = *(index++);
+			
+
+		}
+		
+		uint32_t prototypeCount = *(uint32_t*)index;
+		index += 4;
+		content += "\nPrototypes (" + std::to_string(prototypeCount) + ")";
+
+		uint32_t functionCount = *(uint32_t*)index;
+		index += 4;
+		content += "\nFunctions (" + std::to_string(functionCount) + ")";
+
+		std::cout << content << std::endl;
+	}
+
+
 };

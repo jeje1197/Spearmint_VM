@@ -142,6 +142,9 @@
     <Text Include="specs.txt" />
     <Text Include="spm_file_layout.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="example.spm" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

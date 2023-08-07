@@ -1,5 +1,4 @@
 // Spearmint_VM.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
 
 #include <iostream>
 #include "svm_instructions.h"
@@ -15,8 +14,16 @@ int main()
     std::vector<uint8_t> bytecode = assembler.getBytecode();*/
 
     /*uint8_t* memory = bytecode.data();*/
-    /*uint8_t mem[] = {
-        CALL, PROGRAM_SUCCESS
+    uint8_t mem[] = {
+        I_PUSH, 2, 0, 0, 0,
+        I_PUSH, 97, 0, 0, 0,
+        STORE_GLOBAL, // globals[2] = 97
+
+        I_PUSH, 6, 2, 1, 0,
+        I_PUSH, 2, 0, 0, 0,
+        LOAD_GLOBAL, // push globals[2] to stack
+        I_PRINT, // print top of stack
+        PROGRAM_SUCCESS
     };
 
     if (run(mem) == 0) {
@@ -24,8 +31,11 @@ int main()
     }
     else {
         std::cout << "Program terminated with an error." << std::endl;
-    }*/
+    }
 
-    SpmFileGenerator spmGen;
-    spmGen.generateSpmFile();
+
+
+    /*SpmFileGenerator spmGen;
+    vector<uint8_t> bytecode = spmGen.generateSpmFile();
+    spmGen.disassembleSpmBytecode(bytecode);*/
 }

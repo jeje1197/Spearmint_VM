@@ -12,34 +12,19 @@ typedef enum {
 	PROGRAM_SUCCESS,
 	PROGRAM_FAIL,
 
-	PUSH,
-	PUSH_NIL,
-	POP,
-
 	STORE_GLOBAL,
 	LOAD_GLOBAL,
 
-	CALL,
+	I_PUSH,
+	POP,
 
-	ADD,
-	SUB,
-	MUL,
-	DIV,
-	MOD,
+	//BPUSH,
 
-	EQ,
-	NEQ,
-	CMP,
+	//ADD,
+	//SUB,
+	//MUL,
+	//DIV,
+	//MOD,
 
-	GOTO,
-
-	LT,
-	LTE,
-	GT,
-	GTE,
-
-	
-
-	PRINT,
-	PRINTLN
+	I_PRINT,
 } opcode;

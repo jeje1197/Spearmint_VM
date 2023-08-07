@@ -1,9 +1,8 @@
 This file describes the layout of a Spearmint Bytecode file
 
 
-Datatypes for the virtual machine are: Number, String, Boolean, Object, Nil
 
-Constants are literals that show up in code.
+
 
 spm file {
 	# bytes		describes
@@ -11,31 +10,10 @@ spm file {
 	6			FILE_SIGNATURE			- First 6 bytes (0x6A6F73657068) corresponds to the name joseph in ASCII
 	2			VERSION					- Version of spm code (ex. byte1 byte2 -> 1.2)
 	
-	4			CONSTANT_POOL_SIZE		- Number of entries in the constant pool
-	?			CONSTANT_POOL_ENTRIES	- An array of entries structured as
-											{ 
-												datatype (1 byte), 
-												data to be interpreted (? bytes)
-											}
 
-	4			PROTOTYPE_COUNT			- Number of user defined prototypes
-	?			PROTOTYPE_ENTRIES		- An array of user defined prototypes. 
-											Each entry is 
-											{
-												prototype_name (string), 
-												parent_prototype (string),
-												number_of_fields (2 byte), 
-												field_names (string(s))
-											}
-	
+	?			INSTRUCTIONS			- Instructions in VM
 
-	2			FUNCTION_COUNT			- Bytecode instructions
-	?			FUNCTION_ENTRIES		- An array of user defined functions.
-											Each entry is
-											{
-												function_name,
-												number_of_args
-											}
 
 }
+
 

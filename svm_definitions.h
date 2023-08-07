@@ -21,16 +21,13 @@ enum ValueType{
 	TYPE_NIL = 4
 };
 
-typedef struct Value {
-	ValueType type;
-
-	union {
-		uint64_t uint64;
-		double number;
-		string* string;
-		void* object_ptr;
-		bool boolean;
-	} as;
+typedef union {
+	uint64_t uint64;
+	int integer;
+	double number;
+	string* string;
+	void* object_ptr;
+	bool boolean;
 } value;
 
 typedef void(*NativeFunctionPtr)();

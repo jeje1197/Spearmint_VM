@@ -19,30 +19,30 @@ value stack_pop() {
 	return *--svm.sp;
 }
 
-bool isEqual(value left, value right) {
-	if (left.type != right.type) { 
-		return false; 
-	}
-	else if (left.type == TYPE_STRING) {
-		return *left.as.string == *right.as.string;
-	}
-	return left.as.uint64 == right.as.uint64;
-}
-
-int cmp(value left, value right) {
-	if (left.type != right.type) {
-		throw "Invalid type operation";
-	}
-	else if (left.type == TYPE_NUMBER) {
-		return left.as.number - right.as.number;
-	}
-	else if (left.type == TYPE_STRING) {
-		return left.as.string->compare(*right.as.string);
-	}
-	else {
-		throw "Invalid type operation";
-	}
-}
+//bool isEqual(value left, value right) {
+//	if (left.type != right.type) { 
+//		return false; 
+//	}
+//	else if (left.type == TYPE_STRING) {
+//		return *left.as.string == *right.as.string;
+//	}
+//	return left.as.uint64 == right.as.uint64;
+//}
+//
+//int cmp(value left, value right) {
+//	if (left.type != right.type) {
+//		throw "Invalid type operation";
+//	}
+//	else if (left.type == TYPE_NUMBER) {
+//		return left.as.number - right.as.number;
+//	}
+//	else if (left.type == TYPE_STRING) {
+//		return left.as.string->compare(*right.as.string);
+//	}
+//	else {
+//		throw "Invalid type operation";
+//	}
+//}
 
 
 // Interpret bytecode
@@ -57,13 +57,39 @@ int run(uint8_t *bytecode) {
 		uint8_t instruction = *svm.pc++;
 		
 		switch (instruction) {
-		case PROGRAM_SUCCESS:
-			return 0;
+		case PROGRAM_SUCCESS: return 0;
+		case PROGRAM_FAIL: return -1;
 
-		case PROGRAM_FAIL:
-			return -1;
+		case STORE_GLOBAL: {
+			value data = stack_pop();
+			value index = stack_pop();
 
-		case PUSH: {
+			svm.global[index.integer] = data;
+			break;
+		}
+
+		case LOAD_GLOBAL: {
+			value index = stack_pop();
+			stack_push(svm.global[index.integer]);
+			break;
+		}
+
+		case I_PUSH: {
+			value v;
+			v.integer = *(int*)svm.pc;
+			svm.pc += 4;
+
+			stack_push(v);
+			break;
+		}
+
+		case I_PRINT: {
+			value v = stack_pop();
+			std::cout << v.integer << std::endl;
+			break;
+		}
+
+		/*case PUSH: {
 			value data;
 
 			int datatype = *svm.pc++;
@@ -74,28 +100,28 @@ int run(uint8_t *bytecode) {
 
 			stack_push(data);
 			break;
-		}
+		}*/
 
 		case POP: {
 			stack_pop();
 			break;
 		}
 
-		case STORE_GLOBAL: {
+		/*case STORE_GLOBAL: {
 			value data = stack_pop();
 			int index = (int) stack_pop().as.number;
 
 			stack_push(svm.global[index]);
 			break;
-		}
+		}*/
 
-		case LOAD_GLOBAL: {
+		/*case LOAD_GLOBAL: {
 			int index = (int)stack_pop().as.number;
 			stack_push(svm.global[index]);
 			break;
-		}
+		}*/
 
-		case CALL: {
+		/*case CALL: {
 			svm.nativeFunctions["test"]();
 			break;
 
@@ -261,7 +287,7 @@ int run(uint8_t *bytecode) {
 				std::cout << "nil" << std::endl;
 			}
 			break;
-		}
+		}*/
 
 		default:
 			return -1;
