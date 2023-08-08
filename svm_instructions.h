@@ -24,6 +24,10 @@ typedef enum {
 	DIV,
 	MOD,
 
+	EQ,
+	NEQ,
+	CMP,
+
 	PRINT,
 	PRINTLN,
 

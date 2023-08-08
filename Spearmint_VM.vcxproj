@@ -132,6 +132,7 @@
   <ItemGroup>
     <ClInclude Include="AsmToken.h" />
     <ClInclude Include="assembler.h" />
+    <ClInclude Include="Mnemonics.h" />
     <ClInclude Include="NativeFunctions.h" />
     <ClInclude Include="spm_file_generator.h" />
     <ClInclude Include="svm.h" />

@@ -98,6 +98,7 @@ int run(uint8_t *bytecode) {
 				data.as.boolean = (bool)*svm.pc++;
 			}
 			else {
+				std::cout << datatype << std::endl;
 				throw "Unimplemented operation";
 			}
 
@@ -231,7 +232,7 @@ int run(uint8_t *bytecode) {
 			break;
 		}
 
-		/*case EQ: {
+		case EQ: {
 			value result;
 			value right = stack_pop();
 			value left = stack_pop();
@@ -262,7 +263,7 @@ int run(uint8_t *bytecode) {
 			result.as.number = cmp(left, right);
 			stack_push(result);
 			break;
-		}*/
+		}
 
 		/*case GOTO: {
 			uint8_t* address = (uint8_t*) stack_pop().as.object_ptr;

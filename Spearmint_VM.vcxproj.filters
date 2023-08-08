@@ -57,6 +57,9 @@
     <ClInclude Include="spm_file_generator.h">
       <Filter>File Generator</Filter>
     </ClInclude>
+    <ClInclude Include="Mnemonics.h">
+      <Filter>Assembler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="example.spm">

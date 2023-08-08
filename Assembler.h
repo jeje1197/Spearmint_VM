@@ -7,6 +7,7 @@
 
 #include "svm_instructions.h"
 #include "AsmToken.h"
+#include "Mnemonics.h"
 
 using std::string;
 using std::vector;
@@ -55,7 +56,7 @@ public:
 
 				AsmToken token;
 				token.type = ASM_INSTRUCTION;
-				token.value.string = &operation;
+				token.value.string = new string(operation);
 				tokens.push_back(token);
 			}
 			else if (cur == '$') { // scan identifier
@@ -69,7 +70,7 @@ public:
 
 				AsmToken token;
 				token.type = ASM_IDENTIFIER;
-				token.value.string = &operation;
+				token.value.string = new string(operation);
 				tokens.push_back(token);
 			}
 			else if (isdigit(cur) || cur == '-' || cur == '+') { // get a number as double and store it as bytecode
@@ -94,6 +95,7 @@ public:
 				AsmToken token;
 				token.type = ASM_NUMBER;
 				token.value.value = std::stod(number);
+				tokens.push_back(token);
 			}
 			else if (cur == '"') { // get a string and store it
 				getnext();
@@ -107,7 +109,7 @@ public:
 
 				AsmToken token;
 				token.type = ASM_STRING;
-				token.value.string = &str_value;
+				token.value.string = new string(str_value);
 
 				tokens.push_back(token);
 			}
@@ -125,6 +127,47 @@ public:
 		}
 
 		return tokens;
+	}
+
+	vector<uint8_t> parse(vector<AsmToken> tokens) {
+		vector<uint8_t> bytecode;
+		int i = 0;
+
+		while (i < (int)tokens.size()) {
+			AsmToken cur = tokens.at(i++);
+			if (cur.type == ASM_INSTRUCTION) {
+				//std::cout << "INSTRUCTION" << std::endl;
+				if (mnemonics.find(*cur.value.string) == mnemonics.end()) {
+					throw "Instruction not found";
+				}
+				uint8_t byte = mnemonics.at(*cur.value.string);
+				bytecode.push_back(byte);
+			}
+			else if (cur.type == ASM_NUMBER) {
+				//std::cout << "NUMBER" << std::endl;
+				bytecode.push_back(0x0); // Type flag
+				bytecode.insert(bytecode.end(), static_cast<uint8_t*>(static_cast<void*>(&cur.value.value)),
+					(uint8_t*)&cur.value.value + 8);
+			}
+			else if (cur.type == ASM_STRING) {
+				//std::cout << "STRING" << std::endl;
+				bytecode.push_back(0x1); // Type flag
+				bytecode.push_back((uint8_t)cur.value.string->length());
+				for (auto c : *cur.value.string) {
+					//std::cout << c << std::endl;
+					bytecode.push_back(c);
+				}
+			}
+			else {
+				throw "Unimplemented";
+			}
+		}
+
+		return bytecode;
+	}
+
+	vector<uint8_t> getBytecode() {
+		return parse(getTokens());
 	}
 };
 

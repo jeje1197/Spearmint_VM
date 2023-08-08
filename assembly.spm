@@ -1,8 +1,3 @@
-.globals
-	hw  "Hello World!"
-	date "8-8-23"
-
-
 .program
 	load_global hw
 	print_str
