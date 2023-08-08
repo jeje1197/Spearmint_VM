@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <string>
+#include <unordered_set>
 #include <unordered_map>
 
 #include "NativeFunctions.h"
@@ -11,9 +12,10 @@
 #define HEAP_MAX 100000
 
 using std::string;
+using std::unordered_set;
 using std::unordered_map;
 
-enum ValueType{
+enum ValueType {
 	TYPE_NUMBER = 0,
 	TYPE_STRING = 1,
 	TYPE_BOOLEAN = 2,
@@ -21,13 +23,15 @@ enum ValueType{
 	TYPE_NIL = 4
 };
 
-typedef union {
-	uint64_t uint64;
-	int integer;
-	double number;
-	string* string;
-	void* object_ptr;
-	bool boolean;
+typedef struct Value {
+	uint8_t type;	// Runtime Type
+
+	union {			// Runtime Data
+		double number;
+		string* string;
+		void* object_ptr;
+		bool boolean;
+	} as;
 } value;
 
 typedef void(*NativeFunctionPtr)();
@@ -36,6 +40,7 @@ struct {
 	uint8_t* pc;
 
 	value global[GLOBAL_MAX];
+	unordered_set<string*> stringPool;
 	value stack[STACK_MAX];
 
 	value* sp;
@@ -43,5 +48,6 @@ struct {
 	unordered_map<string, NativeFunctionPtr> nativeFunctions = {
 		{"test", (NativeFunctionPtr) &test::testCall}
 	};
+
 } svm;
 

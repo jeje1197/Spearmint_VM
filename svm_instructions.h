@@ -15,16 +15,17 @@ typedef enum {
 	STORE_GLOBAL,
 	LOAD_GLOBAL,
 
-	I_PUSH,
+	PUSH,
 	POP,
 
-	//BPUSH,
+	ADD,
+	SUB,
+	MUL,
+	DIV,
+	MOD,
 
-	//ADD,
-	//SUB,
-	//MUL,
-	//DIV,
-	//MOD,
+	PRINT,
+	PRINTLN,
 
-	I_PRINT,
+	CALL
 } opcode;
