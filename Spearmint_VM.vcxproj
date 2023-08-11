@@ -141,6 +141,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="spm_file_layout.txt" />
+    <Text Include="instruction_info.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="example.spm" />

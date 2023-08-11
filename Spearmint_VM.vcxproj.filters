@@ -34,6 +34,9 @@
     <Text Include="spm_file_layout.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="instruction_info.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="svm.h">

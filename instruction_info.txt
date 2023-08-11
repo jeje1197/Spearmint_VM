@@ -1,0 +1,33 @@
+
+PROGRAM_SUCCESS - Terminate the program successfully
+PROGRAM_FAIL	- Terminate the program with a generic error message
+
+PUSH - Pushes an element to the stack
+	1st byte after = datatype
+	2nd - nth byte = data
+
+POP - Pops an element from the stack
+
+COPY - Places a copy of the top most element on stack. No elements are popped
+
+ADD - Pops two elements from top of stack and places the result of addition
+SUB - Pops two elements from top of stack and places the result of subtraction
+MUL - Pops two elements from top of stack and places the result of multiplication
+DIV - Pops two elements from top of stack and places the result of division
+MOD - Pops two elements from top of stack and places the remainer of division
+
+EQ - Pops two elements from top of stack and places a value representing their equivalence by type, value or address
+NEQ - Pops two elements from top of stack and places a value representing their inequivalence by type, value and address
+CMP - Pops top two elements on the stack and pushes a value containing the result of comparison 
+	  (a numerical value describing the difference between the two elements)
+
+PRINT - Pops element and prints without newline
+PRINTLN - Pops element and prints with newline
+
+JUMP - Performs an unconditional jump to address of bytecode[offset] stored in the following 4 bytes
+JLTZ - Pops element from stack and conditionally jump to address of bytecode[offset], if value < 0
+JEZ  - Pops element from stack and conditionally jump to address of bytecode[offset], if value == 0
+JGTZ - Pops element from stack and conditionally jump to address of bytecode[offset], if value > 0
+
+CALL - Pops element from stack and calls function mapped to string value in lookup table
+BENCHMARK - Set the reportBenchmark flag to true and tracks time until program terminates successfully
