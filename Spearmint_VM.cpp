@@ -44,10 +44,16 @@ int main()
     vector<uint8_t> bytecode = assembler.getBytecode();
     uint8_t* mem = bytecode.data();
 
-    if (run(mem) == 0) {
-        std::cout << "\nProgram terminated successfully." << std::endl;
+    try {
+        if (run(mem) == 0) {
+            std::cout << "\nProgram terminated successfully." << std::endl;
+        }
+        else {
+            std::cout << "Program terminated with an error." << std::endl;
+        }
     }
-    else {
-        std::cout << "Program terminated with an error." << std::endl;
+    catch (const char* err) {
+        std::cout << err << std::endl;
     }
+    
 }

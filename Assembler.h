@@ -5,6 +5,7 @@
 #include <vector>
 #include <unordered_map>
 
+#include "svm_definitions.h"
 #include "svm_instructions.h"
 #include "AsmToken.h"
 #include "Mnemonics.h"
@@ -179,13 +180,13 @@ public:
 			}
 			else if (cur.type == ASM_NUMBER) {
 				//std::cout << "NUMBER" << std::endl;
-				bytecode.push_back(0x0); // Type flag
+				bytecode.push_back(TYPE_NUMBER); // Type flag
 				bytecode.insert(bytecode.end(), static_cast<uint8_t*>(static_cast<void*>(&cur.value.value)),
 					(uint8_t*)&cur.value.value + 8);
 			}
 			else if (cur.type == ASM_STRING) {
 				//std::cout << "STRING" << std::endl;
-				bytecode.push_back(0x1); // Type flag
+				bytecode.push_back(TYPE_STRING); // Type flag
 				bytecode.push_back((uint8_t)cur.value.string->length());
 				for (auto c : *cur.value.string) {
 					//std::cout << c << std::endl;

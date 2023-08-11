@@ -1,34 +1,18 @@
 # Here is an example file written in Spearmint bytecode
 
-# Store value in static_memory_section at index 0
 PUSH 0
-PUSH "Hello World!"
-STORE_GLOBAL
-
-# Print the value stored in static_memory_section at index 1
-PUSH 0
-LOAD_GLOBAL
-PRINTLN
-
-# Print the result of 5 * 92
-PUSH 5
-PUSH 92
-MUL
-PRINTLN
-
-PUSH 0
-#JUMP @jump_test
 loop:
 	COPY
-	JEZ @jump_test
+	PUSH 1000000
+	CMP
+	JGTZ @loop_end
+
+	COPY
 	PRINTLN
+	
+	PUSH 1
+	ADD
 	JUMP @loop
 
 loop_end:
-	PROGRAM_SUCCESS
-
-jump_test:
-	PUSH "Jump worked!"
-	PRINTLN
-
 	PROGRAM_SUCCESS

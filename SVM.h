@@ -23,6 +23,9 @@ void reset_vm() {
 }
 
 void stack_push(value data) {
+	if (svm.pc == svm.pc + STACK_MAX) {
+		throw "Stack Overflow Exception";
+	}
 	*svm.sp++ = data;
 }
 
@@ -40,16 +43,15 @@ bool isEqual(value left, value right) {
 	return left.as.number == right.as.number;
 }
 
-int cmp(value left, value right) {
+double cmp(value left, value right) {
 	if (left.type != right.type) {
-		std::cout << "L:" << left.type << " R: " << right.type << std::endl;
 		throw "Invalid type operation";
 	}
 	else if (left.type == TYPE_NUMBER) {
-		return (int) (left.as.number - right.as.number);
+		return left.as.number - right.as.number;
 	}
 	else if (left.type == TYPE_STRING) {
-		return (int) (left.as.string->compare(*right.as.string));
+		return (double) (left.as.string->compare(*right.as.string));
 	}
 	else {
 		throw "Invalid type operation";
@@ -126,7 +128,10 @@ int run(uint8_t *bytecode) {
 		}
 
 		case COPY: {
-			value copy = *(svm.sp - 1);
+			value temp =  *(svm.sp - 1);
+			value copy;
+			copy.type = temp.type;
+			copy.as.object_ptr = temp.as.object_ptr;
 			stack_push(copy);
 			break;
 		}
@@ -134,6 +139,9 @@ int run(uint8_t *bytecode) {
 	
 		case ADD: {
 			value result;
+			result.type = TYPE_NIL;
+			result.as.boolean = false;
+
 			value right = stack_pop();
 			value left = stack_pop();
 
@@ -182,7 +190,7 @@ int run(uint8_t *bytecode) {
 				svm.stringPool.insert(newString);
 			}
 			else {
-				std::cout << "L:" << left.type << " R: " << right.type << std::endl;
+				std::cout << "L:" << std::to_string(left.type) << " R: " << std::to_string(right.type) << std::endl;
 				throw "Invalid operation";
 			}
 			stack_push(result);
@@ -332,8 +340,6 @@ int run(uint8_t *bytecode) {
 		}
 
 		case JUMP: {
-			value val = stack_pop();
-
 			int newAddress = *(int*)svm.pc;
 			// svm.pc += 4;
 			svm.pc = bytecode + newAddress;
@@ -346,7 +352,6 @@ int run(uint8_t *bytecode) {
 			int newAddress = *(int*)svm.pc;
 			svm.pc += 4;
 
-			std::cout << "In jez: " << val.as.number << std::endl;
 			if (val.as.number == 0) {
 				svm.pc = bytecode + newAddress;
 			}
@@ -359,7 +364,6 @@ int run(uint8_t *bytecode) {
 			int newAddress = *(int*)svm.pc;
 			svm.pc += 4;
 
-			std::cout << "In jltz: " << val.as.number << std::endl;
 			if (val.as.number < 0) {
 				svm.pc = bytecode + newAddress;
 			}
@@ -372,7 +376,6 @@ int run(uint8_t *bytecode) {
 			int newAddress = *(int*)svm.pc;
 			svm.pc+= 4;
 
-			std::cout << "In jgtz: " << val.as.number << std::endl;
 			if (val.as.number > 0) {
 				svm.pc = bytecode + newAddress;
 			}
