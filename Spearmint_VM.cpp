@@ -25,20 +25,16 @@ std::string getFileText(std::string fileName) {
 int main()
 {
     //uint8_t mem[] = {
+    //    PUSH 0,     0, 0, 0, 0, 0, 0, 0, 0, // double - 8 bytes
     //    PUSH, 1,    3, 97, 98, 99,  // string length 3 - "abc"
-    //    PUSH, 1,    3, 98, 99, 100, // boolean - false
     //    CMP,
 
-    //    PRINT, // print top of stack
-
-    //    //CALL, 
+    //    PRINTLN, // print top of stack
+ 
     //    PROGRAM_SUCCESS
     //};
 
     std::string asmText = getFileText("example.spm");
-    //std::cout << asmText << std::endl;
-
-
     SvmAssembler assembler(asmText);
 
     vector<uint8_t> bytecode = assembler.getBytecode();

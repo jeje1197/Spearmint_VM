@@ -31,9 +31,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="specs.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
     <Text Include="spm_file_layout.txt">
       <Filter>Resource Files</Filter>
     </Text>
@@ -65,13 +62,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="example_layout.spm">
+    <None Include="unused_example_layout.spm">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="example.spm">
-      <Filter>Examples</Filter>
-    </None>
-    <None Include="typed.spm">
       <Filter>Examples</Filter>
     </None>
   </ItemGroup>

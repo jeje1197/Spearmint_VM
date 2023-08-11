@@ -10,6 +10,8 @@ using std::vector;
 using std::set;
 using std::string;
 
+
+/* Not being used at the moment*/
 class SpmFileGenerator {
 private:
 	vector<uint8_t> bytecode;

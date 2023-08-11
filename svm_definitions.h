@@ -46,7 +46,8 @@ struct {
 	value* sp;
 
 	unordered_map<string, NativeFunctionPtr> nativeFunctions = {
-		{"test", (NativeFunctionPtr) &test::testCall}
+		{"test", (NativeFunctionPtr) &test::testCall},
+		{"cpp_loop", (NativeFunctionPtr) &test::loop}
 	};
 
 } svm;

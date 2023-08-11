@@ -69,11 +69,26 @@ int run(uint8_t *bytecode) {
 	// Set initial address for program counter
 	svm.pc = bytecode + 6;
 
+	int tBefore = 0;
+	bool reportBenchmark = false;
+
 	for (;;) {
 		uint8_t instruction = *svm.pc++;
 		
 		switch (instruction) {
-		case PROGRAM_SUCCESS: return 0;
+		case PROGRAM_SUCCESS: {
+			int tAfter = duration_cast<milliseconds>(
+				system_clock::now().time_since_epoch()
+			).count();
+
+			std::cout << "CPP Time Elapsed: " << test::benchmarkCpp << std::endl;
+			if (reportBenchmark) {
+				int benchmarkSpm = tAfter - tBefore;
+				std::cout << "Program Benchmark Time: Elapsed: " << benchmarkSpm << std::endl;
+			}
+			
+			return 0;
+		}
 		case PROGRAM_FAIL: return -1;
 
 		case STORE_GLOBAL: {
@@ -384,7 +399,25 @@ int run(uint8_t *bytecode) {
 
 		case CALL: {
 			value str = stack_pop();
+			int ms = duration_cast<milliseconds>(
+				system_clock::now().time_since_epoch()
+			).count();
+
 			svm.nativeFunctions[*str.as.string]();
+
+			int endMs = duration_cast<milliseconds>(
+				system_clock::now().time_since_epoch()
+			).count();
+
+			test::benchmarkCpp = endMs - ms;
+			break;
+		}
+
+		case BENCHMARK: {
+			reportBenchmark = true;
+			tBefore = duration_cast<milliseconds>(
+				system_clock::now().time_since_epoch()
+			).count();
 			break;
 		}
 

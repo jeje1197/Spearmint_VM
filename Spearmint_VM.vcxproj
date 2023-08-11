@@ -140,13 +140,11 @@
     <ClInclude Include="svm_instructions.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="specs.txt" />
     <Text Include="spm_file_layout.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="example.spm" />
-    <None Include="example_layout.spm" />
-    <None Include="typed.spm" />
+    <None Include="unused_example_layout.spm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

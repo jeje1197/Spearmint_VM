@@ -1,18 +1,26 @@
 # Here is an example file written in Spearmint bytecode
 
+# Call native function assigned to "cpp_loop"
+	# PUSH "cpp_loop"
+	# CALL
+
+# This instruction starts the benchmark and runs until the PROGRAM_SUCCESS instruction
+BENCHMARK
+
+# Loop from 0 to 99999
 PUSH 0
 loop:
 	COPY
-	PUSH 1000000
+	PUSH 10000
 	CMP
-	JGTZ @loop_end
+	JGTZ @endloop
 
 	COPY
 	PRINTLN
-	
+
 	PUSH 1
 	ADD
 	JUMP @loop
 
-loop_end:
+endloop:
 	PROGRAM_SUCCESS

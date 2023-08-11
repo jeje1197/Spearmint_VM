@@ -36,5 +36,6 @@ typedef enum {
 	JLTZ,
 	JGTZ,
 
-	CALL
+	CALL,
+	BENCHMARK
 } opcode;

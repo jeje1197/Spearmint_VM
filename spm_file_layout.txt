@@ -2,17 +2,11 @@ This file describes the layout of a Spearmint Bytecode file
 
 
 
-
-
 spm file {
 	# bytes		describes
 
-	6			FILE_SIGNATURE			- First 6 bytes (0x6A6F73657068) corresponds to the name joseph in ASCII
-	2			VERSION					- Version of spm code (ex. byte1 byte2 -> 1.2)
-	
-
+	6			FILE_SIGNATURE			- First 6 bytes (0x6A6F73657068)
 	?			INSTRUCTIONS			- Instructions in VM
-
 
 }
 

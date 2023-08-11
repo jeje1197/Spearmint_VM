@@ -1,5 +1,0 @@
-.program
-	load_global hw
-	print_str
-	
-

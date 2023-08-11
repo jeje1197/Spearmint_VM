@@ -34,5 +34,6 @@ unordered_map<string, uint8_t> mnemonics = {
 	{"JLTZ", 19},
 	{"JGTZ", 20},
 
-	{"CALL", 21}
+	{"CALL", 21},
+	{"BENCHMARK", 22}
 };
