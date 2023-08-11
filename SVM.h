@@ -6,6 +6,17 @@
 #include "svm_definitions.h"
 #include "svm_instructions.h"
 
+void verify_signature(uint8_t* bytecode) {
+	string signature = "";
+	for (int i = 0; i < 6; i++) {
+		signature += (char) bytecode[i];
+	}
+
+	if (signature != "joseph") {
+		std::cout << "Corrupt file." << std::endl;
+		throw "Corrupt file";
+	}
+}
 
 void reset_vm() {
 	svm.sp = svm.stack;
@@ -31,13 +42,14 @@ bool isEqual(value left, value right) {
 
 int cmp(value left, value right) {
 	if (left.type != right.type) {
+		std::cout << "L:" << left.type << " R: " << right.type << std::endl;
 		throw "Invalid type operation";
 	}
 	else if (left.type == TYPE_NUMBER) {
-		return left.as.number - right.as.number;
+		return (int) (left.as.number - right.as.number);
 	}
 	else if (left.type == TYPE_STRING) {
-		return left.as.string->compare(*right.as.string);
+		return (int) (left.as.string->compare(*right.as.string));
 	}
 	else {
 		throw "Invalid type operation";
@@ -48,10 +60,12 @@ int cmp(value left, value right) {
 // Interpret bytecode
 int run(uint8_t *bytecode) {
 	reset_vm();
-	std::cout << "Process running.\n" << std::endl;
+
+	// Check if bytecode is valid
+	verify_signature(bytecode);
 
 	// Set initial address for program counter
-	svm.pc = bytecode;
+	svm.pc = bytecode + 6;
 
 	for (;;) {
 		uint8_t instruction = *svm.pc++;
@@ -111,6 +125,12 @@ int run(uint8_t *bytecode) {
 			break;
 		}
 
+		case COPY: {
+			value copy = *(svm.sp - 1);
+			stack_push(copy);
+			break;
+		}
+
 	
 		case ADD: {
 			value result;
@@ -162,6 +182,7 @@ int run(uint8_t *bytecode) {
 				svm.stringPool.insert(newString);
 			}
 			else {
+				std::cout << "L:" << left.type << " R: " << right.type << std::endl;
 				throw "Invalid operation";
 			}
 			stack_push(result);
@@ -296,7 +317,7 @@ int run(uint8_t *bytecode) {
 				std::cout << data.as.number << std::endl;
 			}
 			else if (data.type == TYPE_STRING) {
-				std::cout << data.as.string << std::endl;
+				std::cout << *data.as.string << std::endl;
 			}
 			else if (data.type == TYPE_BOOLEAN) {
 				std::cout << ((data.as.boolean != 0) ? "true" : "false") << std::endl;
@@ -310,10 +331,58 @@ int run(uint8_t *bytecode) {
 			break;
 		}
 
-		case CALL: {
-			svm.nativeFunctions["test"]();
-			break;
+		case JUMP: {
+			value val = stack_pop();
 
+			int newAddress = *(int*)svm.pc;
+			// svm.pc += 4;
+			svm.pc = bytecode + newAddress;
+			break;
+		}
+
+		case JEZ: {
+			value val = stack_pop();
+
+			int newAddress = *(int*)svm.pc;
+			svm.pc += 4;
+
+			std::cout << "In jez: " << val.as.number << std::endl;
+			if (val.as.number == 0) {
+				svm.pc = bytecode + newAddress;
+			}
+			break;
+		}
+
+		case JLTZ: {
+			value val = stack_pop();
+
+			int newAddress = *(int*)svm.pc;
+			svm.pc += 4;
+
+			std::cout << "In jltz: " << val.as.number << std::endl;
+			if (val.as.number < 0) {
+				svm.pc = bytecode + newAddress;
+			}
+			break;
+		}
+
+		case JGTZ: {
+			value val = stack_pop();
+
+			int newAddress = *(int*)svm.pc;
+			svm.pc+= 4;
+
+			std::cout << "In jgtz: " << val.as.number << std::endl;
+			if (val.as.number > 0) {
+				svm.pc = bytecode + newAddress;
+			}
+			break;
+		}
+
+		case CALL: {
+			value str = stack_pop();
+			svm.nativeFunctions[*str.as.string]();
+			break;
 		}
 
 		default:

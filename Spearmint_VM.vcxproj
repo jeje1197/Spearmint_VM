@@ -145,6 +145,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="example.spm" />
+    <None Include="example_layout.spm" />
+    <None Include="typed.spm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

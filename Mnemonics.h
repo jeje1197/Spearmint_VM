@@ -14,19 +14,25 @@ unordered_map<string, uint8_t> mnemonics = {
 
 	{"PUSH", 4},
 	{"POP", 5},
+	{"COPY", 6},
 
-	{"ADD", 6},
-	{"SUB", 7},
-	{"MUL", 8},
-	{"DIV", 9},
-	{"MOD", 10},
+	{"ADD", 7},
+	{"SUB", 8},
+	{"MUL", 9},
+	{"DIV", 10},
+	{"MOD", 11},
 
-	{"EQ", 11},
-	{"NEQ", 12},
-	{"CMP", 13},
+	{"EQ", 12},
+	{"NEQ", 13},
+	{"CMP", 14},
 
-	{"PRINT", 14},
-	{"PRINTLN", 15},
+	{"PRINT", 15},
+	{"PRINTLN", 16},
 
-	{"CALL", 16}
+	{"JUMP", 17},
+	{"JEZ", 18},
+	{"JLTZ", 19},
+	{"JGTZ", 20},
+
+	{"CALL", 21}
 };

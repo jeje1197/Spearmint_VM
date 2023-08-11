@@ -3,7 +3,6 @@
 /*
 	The instruction set for the Spearmint Virtual Machine.
 
-
 	Number Types: Only doubles (64-bit floating point numbers)
 	Strings Types: Characters are represented by size 1 strings
 */
@@ -17,6 +16,7 @@ typedef enum {
 
 	PUSH,
 	POP,
+	COPY,
 
 	ADD,
 	SUB,
@@ -30,6 +30,11 @@ typedef enum {
 
 	PRINT,
 	PRINTLN,
+
+	JUMP,
+	JEZ,
+	JLTZ,
+	JGTZ,
 
 	CALL
 } opcode;

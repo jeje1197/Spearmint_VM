@@ -32,7 +32,7 @@ private:
 	}
 
 	void addString(string str) {
-		addByte(str.length()); // Add length in String header
+		addByte((int)str.length()); // Add length in String header
 
 		for (auto c : str) { // Add characters as bytes
 			addByte(c);
@@ -129,7 +129,7 @@ public:
 		content += "\n\nConstant Pool (" + std::to_string(constantPoolCount) + ")";
 
 		uint32_t numberParsed = 0;
-		for (int i = 0; i < constantPoolCount; i++) {
+		for (int i = 0; i < (int) constantPoolCount; i++) {
 			uint8_t datatype = *(index++);
 			
 

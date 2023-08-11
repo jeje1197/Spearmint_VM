@@ -4,6 +4,6 @@
 
 namespace test {
 	void testCall(int a) {
-		std::cout << "Test call" << std::endl;
+		std::cout << "This code was called from C." << std::endl;
 	}
 }

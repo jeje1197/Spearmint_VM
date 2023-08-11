@@ -21,6 +21,9 @@
     <Filter Include="Virtual Machine\Native">
       <UniqueIdentifier>{440873a4-a0f5-4f2c-91e2-15fea7e3f65d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Examples">
+      <UniqueIdentifier>{df14bc37-4075-4fcc-854a-48857a24f33d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Spearmint_VM.cpp">
@@ -62,8 +65,14 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="example.spm">
+    <None Include="example_layout.spm">
       <Filter>Resource Files</Filter>
+    </None>
+    <None Include="example.spm">
+      <Filter>Examples</Filter>
+    </None>
+    <None Include="typed.spm">
+      <Filter>Examples</Filter>
     </None>
   </ItemGroup>
 </Project>
